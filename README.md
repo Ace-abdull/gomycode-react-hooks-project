@@ -4,16 +4,18 @@ A small React + TypeScript movie app built with Vite and styled using Tailwind C
 
 ## Features
 
-- Add a new movie with title, description, poster URL, and rating
+- Add a new movie with title, description, poster URL, trailer embed URL, and rating
 - Filter the list by title text and minimum rating
-- Display responsive movie cards with poster images and ratings
-- Uses React hooks for state and form handling
+- Click any movie card to view a full description and embedded trailer
+- Navigate back to the home page from the movie detail screen
+- Responsive UI with Tailwind styling
 
 ## Run locally
 
 1. Install dependencies: `npm install`
 2. Start dev server: `npm run dev`
-3. Build for production: `npm run build`
+3. Open `http://localhost:5173`
+4. Build for production: `npm run build`
 
 ## Stack
 
@@ -22,6 +24,9 @@ A small React + TypeScript movie app built with Vite and styled using Tailwind C
 - Vite
 - Tailwind CSS (CDN)
 
-## Notes
+## App behavior
 
-The app focuses on core functionality: adding movies, filtering by title and rating, and displaying results with clean Tailwind styling.
+- The home page shows movie cards and a filter form.
+- Clicking a movie card opens a detail page with the movie description, rating, poster, and trailer.
+- The detail page includes a `Back to Home` button to return to the list.
+- New movies can be added with an embedded YouTube trailer link.
