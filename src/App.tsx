@@ -1,32 +1,36 @@
 import { type FormEvent, useState } from "react";
 import Filter from "./components/Filter";
 import MovieList, { type Movie } from "./components/MovieList";
+import MovieDetail from "./components/MovieDetail";
 
 const initialMovies: Movie[] = [
   {
     id: 1,
     title: "The Matrix",
     description:
-      "A hacker discovers the shocking truth about reality and joins the resistance.",
+      "A hacker discovers the shocking truth about reality and joins the resistance. In a dystopian future where reality is a simulated world created by machines to pacify humans while using their bodies as an energy source, a computer programmer named Neo becomes aware of the truth and joins a group of rebels to fight against the AI overlords.",
     posterURL: "https://m.media-amazon.com/images/I/51EG732BV3L._AC_.jpg",
     rating: 4.7,
+    trailerURL: "https://www.youtube.com/embed/vKQi3bBA1y8",
   },
   {
     id: 2,
     title: "Stranger Things",
     description:
-      "A group of kids investigates a supernatural mystery in their small town.",
+      "A group of kids investigates a supernatural mystery in their small town. When a young boy vanishes mysteriously in the 1980s, his friends discover secret government experiments and a strange new girl with psychokinetic powers. Together, they uncover a hidden world connected to their town through an alternate dimension filled with terrifying creatures.",
     posterURL:
       "https://static.wikia.nocookie.net/strangerthings8333/images/5/57/Stranger_Things_season_4_key_art.jpg",
     rating: 4.4,
+    trailerURL: "https://www.youtube.com/embed/b9ncQSEY-qA",
   },
   {
     id: 3,
     title: "Inception",
     description:
-      "A team enters dreams to plant an idea while navigating shifting realities.",
+      "A team enters dreams to plant an idea while navigating shifting realities. A skilled thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O. As layers of dreams within dreams become more complex, the team must work together to navigate the subconscious and complete their dangerous mission.",
     posterURL: "https://m.media-amazon.com/images/I/51v5ZpFyaFL._AC_.jpg",
     rating: 4.8,
+    trailerURL: "https://www.youtube.com/embed/YoHD_XwzArc",
   },
 ];
 
@@ -37,7 +41,9 @@ function App() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [posterURL, setPosterURL] = useState("");
+  const [trailerURL, setTrailerURL] = useState("");
   const [rating, setRating] = useState(1);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   const filteredMovies = movies.filter((movie) => {
     const titleMatches = movie.title
@@ -50,7 +56,12 @@ function App() {
   const handleAddMovie = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title.trim() || !description.trim() || !posterURL.trim()) {
+    if (
+      !title.trim() ||
+      !description.trim() ||
+      !posterURL.trim() ||
+      !trailerURL.trim()
+    ) {
       return;
     }
 
@@ -59,6 +70,7 @@ function App() {
       title: title.trim(),
       description: description.trim(),
       posterURL: posterURL.trim(),
+      trailerURL: trailerURL.trim(),
       rating: Number(rating),
     };
 
@@ -66,8 +78,18 @@ function App() {
     setTitle("");
     setDescription("");
     setPosterURL("");
+    setTrailerURL("");
     setRating(1);
   };
+
+  if (selectedMovie) {
+    return (
+      <MovieDetail
+        movie={selectedMovie}
+        onBack={() => setSelectedMovie(null)}
+      />
+    );
+  }
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -98,7 +120,10 @@ function App() {
 
             <section className="rounded-[2rem] bg-slate-900/80 p-6 ring-1 ring-white/10 shadow-2xl shadow-cyan-500/5 backdrop-blur-sm">
               <h2 className="text-2xl font-semibold text-white">Movie list</h2>
-              <MovieList movies={filteredMovies} />
+              <MovieList
+                movies={filteredMovies}
+                onMovieClick={setSelectedMovie}
+              />
             </section>
           </div>
 
@@ -135,6 +160,16 @@ function App() {
                   value={posterURL}
                   onChange={(event) => setPosterURL(event.target.value)}
                   placeholder="https://..."
+                />
+              </label>
+
+              <label className="grid gap-3 text-sm font-semibold text-slate-200">
+                <span>Trailer URL (YouTube embed)</span>
+                <input
+                  className="rounded-3xl border border-slate-700 bg-slate-950/90 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                  value={trailerURL}
+                  onChange={(event) => setTrailerURL(event.target.value)}
+                  placeholder="https://www.youtube.com/embed/..."
                 />
               </label>
 
