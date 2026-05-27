@@ -2,11 +2,15 @@ import type { Movie } from "./MovieList";
 
 interface MovieCardProps {
   movie: Movie;
+  onClick: (movie: Movie) => void;
 }
 
-export default function MovieCard({ movie }: MovieCardProps) {
+export default function MovieCard({ movie, onClick }: MovieCardProps) {
   return (
-    <article className="group overflow-hidden rounded-[2rem] bg-slate-900/95 shadow-2xl shadow-black/20 ring-1 ring-white/10 transition duration-300 hover:-translate-y-1 hover:shadow-[0_40px_100px_rgba(15,23,42,0.35)]">
+    <button
+      onClick={() => onClick(movie)}
+      className="group overflow-hidden rounded-[2rem] bg-slate-900/95 shadow-2xl shadow-black/20 ring-1 ring-white/10 transition duration-300 hover:-translate-y-1 hover:shadow-[0_40px_100px_rgba(15,23,42,0.35)] text-left cursor-pointer border-0"
+    >
       <img
         src={movie.posterURL}
         alt={movie.title}
@@ -21,6 +25,6 @@ export default function MovieCard({ movie }: MovieCardProps) {
         </div>
         <p className="text-sm leading-6 text-slate-300">{movie.description}</p>
       </div>
-    </article>
+    </button>
   );
 }
